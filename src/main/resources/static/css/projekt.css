@@ -1,0 +1,71 @@
+H1{
+    color: #fc766aff !important;
+    text-align: center;
+}
+
+.odstep::after{
+    content: "\a";
+    white-space: pre;
+}
+
+.navbar{
+    background: #fc766aff !important;
+}
+
+body{
+    background-color: #5b84b1ff !important;
+}
+
+.findbtn{
+    background-color: #5E35B1;
+}
+
+.btn {
+    background-color: #5b84b1ff !important;
+}
+
+.btn-floating{
+    background-color: #fc766aff !important;
+}
+
+.tekst_kolor{
+    color: #fc766aff !important;
+}
+
+.guzik_kolor{
+    background-color: #fc766aff !important;
+}
+
+.guzik_kolor2{
+    background-color: #5b84b1ff !important;
+}
+
+.guzik_kolor3{
+    background-color: hotpink !important;
+}
+
+.guzik_kolor4{
+    background-color: dimgray !important;
+}
+
+H3{
+    color: #fc766aff !important;
+    text-align: center;
+}
+
+.table th.sorting_asc {
+    background-image: url("img/sort_asc.png");
+}
+
+.table th.sorting_desc {
+    background-image: url("img/sort_desc.png");
+}
+
+.table th.sorting_both {
+    background-image: url("img/sort_both.png");
+}
+
+.table th{
+    background-repeat: no-repeat;
+    background-position: center right;
+}

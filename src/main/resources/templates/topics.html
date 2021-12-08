@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="shared/layout">
+<head>
+    <title>Forum samochodowe</title>
+</head>
+<body>
+<div layout:fragment="custom-content">
+
+    <article class="container" style="padding: 3% 0 2%;">
+
+<!--        ===================================================-->
+<!--<form method="post" th:object="${topicFilter}">-->
+<!--        <div class="col-sm-9">-->
+<!--            <input type="text" name="phrase" th:field="*{phrase}" class="form-control" id="title" placeholder="Wpisz frazę">-->
+<!--        </div>-->
+
+<!--            <button class="btn guzik_kolor3">Wyszukaj</button>-->
+<!--            <button class="btn guzik_kolor4" th:name="clear">Wyczyść</button>-->
+<!--</form>-->
+
+<!--        ===================================================-->
+
+        <a class="btn guzik_kolor"th:href="@{'/topics'}">Wszystkie</a>
+        <a class="btn guzik_kolor" th:href="@{'/topics?category=60'}">Lata 60</a>
+        <a class="btn guzik_kolor"th:href="@{'/topics/70'}">Lata 70</a>
+        <a class="btn guzik_kolor"th:href="@{'/topics/80'}">Lata 80</a>
+        <a class="btn guzik_kolor"th:href="@{'/topics/90'}">Lata 90</a>
+        <a class="btn guzik_kolor"th:href="@{'/topics/00'}">Lata 00</a>
+
+
+        <header class="row">
+            <blockquote class="flow-text left" th:text="${header}">Header</blockquote>
+            <blockquote class="flow-text right" th:text="|Topics: | + ${topics.size()}">Number of topics</blockquote>
+        </header>
+
+        <section class="row">
+            <div class="col s12">
+                <table class="striped bordered centered" th:if="${topics.size() != 0}">
+                    <thead>
+                    <tr>
+                        <th>Odpowiedzi</th>
+                        <th>Tytuł</th>
+                        <th>Autor</th>
+                        <th>Utworzono</th>
+                        <th>Przejdź</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="topic : ${topics}">
+                        <tr>
+                            <td th:text="${answerRepository.countAnswersByTopic_Id(topic.getId())}">Number of answers</td>
+                            <td th:text="${topic.getTitle()}">Topic's title</td>
+                            <td>
+                                <a th:href="@{'/profile/' + ${topic.getUser().getId()}}">
+                                    <div class="chip" th:text="${topic.getUser().getUsername()}">Topic's author</div>
+                                </a>
+                            </td>
+                            <td th:text="${topic.displayParsedCreatedDate()}">Topic's created date</td>
+                            <td>
+                                <a th:href="@{'/topic/' + ${topic.getId()}}" class="btn btn-floating pulse">
+
+                                </a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+                <div th:replace="~{shared/fragments :: pagination('topics', ${page})}"></div>
+            </div>
+        </section>
+    </article>
+    </div>
+
+</body>
+</html>

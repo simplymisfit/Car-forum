@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="shared/layout">
+<head>
+    <title>Logowanie</title>
+</head>
+<body>
+
+<div layout:fragment="custom-content">
+        <article class="container center" style="padding-top: 3%;">
+            <header class="row">
+                <div class="col s12">
+                    <h3 class="center">Logowanie</h3>
+                    <h5 class="center">Dołącz do forum</h5>
+                    <p class="center flow-text" th:if="${param.error}">Nieprawidłowy login lub hasło</p>
+                </div>
+            </header>
+
+            <section>
+                <form th:action="@{/login}" method="post">
+                    <div class="row">
+                        <div class="col s12 center">
+                            <label class="tekst_kolor"> Login:
+                                <input type="text" name="username" maxlength="10" data-length="10" required="required"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 center">
+                            <label class="tekst_kolor"> Hasło:
+                                <input type="password" name="password" maxlength="10" data-length="10" required="required"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 center">
+                            <button class="btn waves-effect waves-light btn-large guzik_kolor" type="submit" name="login">Zaloguj się</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
+            </section>
+
+        </article>
+    </div>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:fragment="header-css">
+    <meta name="viewport" content="width-device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.3/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" th:href="@{/css/projekt.css}">
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+
+
+
+
+
+
+
+    <meta charset="UTF-8">
+    <title>Filip Rosochacki</title>
+</head>
+<body>
+<div layout:fragment="menu(pageName)">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#"><img class="img-responsive2" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Misfits_Logo.png" height="40" width="150"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" th:classappend="${pageName eq 'home'}?'active'">
+                    <a class="nav-link" th:href="@{/}">Strona główna</a>
+                </li>
+
+                <li class="nav-item" th:classappend="${pageName eq 'topics'}?'active'">
+                    <a class="nav-link" th:href="@{../topics/}">Forum</a>
+                </li>
+
+                <li class="nav-item" th:classappend="${pageName eq 'profile'}?'active'">
+                    <a class="nav-link" th:href="@{../profile/}">Profile</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav my-2 my-lg-0">
+                <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${pageName eq 'registration'}?'active'">
+                    <a class="nav-link" th:href="@{/register}">Zarejestruj się</a></li>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="xxx" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        [[#{label.menu.language}]]
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="xxx" th:with="currentUrl=(${#httpServletRequest.requestURI + '?' + #strings.defaultString(#httpServletRequest.queryString, '')})">
+                        <a class="dropdown-item" th:href="@{${currentUrl.toString().replaceAll('&lang=pl','').replaceAll('&lang=en','')}(lang='pl')}">Polski</a>
+                        <a class="dropdown-item" th:href="@{${currentUrl.toString().replaceAll('&lang=pl','').replaceAll('&lang=en','')}(lang='en')}">English</a>
+                    </div>
+                </li>
+
+                <li sec:authorize="isAuthenticated()" class="nav-item" th:classappend="${pageName eq 'loginForm'}?'active'">
+                    <form th:action="@{/logout}" id="logout" th:method="post">
+                        <button type="submit" class="btn btn-primary" th:href="@{/logout}">Wyloguj</button>
+                    </form>
+                </li>
+
+                <li sec:authorize="isAnonymous()" class="nav-item" th:classappend="${pageName eq 'loginForm'}?'active'">
+                    <a class="nav-link" th:href="@{/login}">Zaloguj</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+</div>
+<div th:fragment="moj_fragment">
+    Treść fragmentu
+</div>
+
+<div id="footer" th:fragment="footer">
+    <div class="footer-copyright text-center py-3">
+        <footer>
+            <strong> © 2020 Filip Rosochacki</strong>
+            <div sec:authorize=" isAuthenticated()">
+                Twoja nazwa to:
+                <strong>
+                    <!-- Wyświetlenie nazwy użytkownika -->
+                    <span sec:authentication="name"/>!</strong>
+
+            </div>
+            </strong>
+        </footer>
+    </div>
+</div>
+
+<th th:fragment="tableHeader(mainUrl, page, propertyName, label)"
+    th:classappend="${page.sort.getOrderFor(propertyName) eq null?'sorting_both':
+    (page.sort.getOrderFor(propertyName).ascending?'sorting_asc':'sorting_desc')}">
+    <a th:href="@{{mainUrl}?page={page}&size={size}&sort={propertyName},{sortDirection}
+    (mainUrl=${mainUrl},page=${page.number},size=${page.size},propertyName=${propertyName},sortDirection=${page.sort.getOrderFor(propertyName) eq null or
+    page.sort.getOrderFor(propertyName).descending?'ASC':'DESC'})}">
+        [[${label}]]
+    </a>
+</th>
+
+<nav aria-label="..." th:fragment="pagination(mainUrl, page)"
+     th:with="
+         currentPage='page='+${page.number},
+         currentSize='size='+${page.size},
+         currentSort='sort='+${#strings.replace(page.sort, ': ',',')},
+         firstPageUrl=${mainUrl}+'?page=0&'+ ${currentSize}+'&'+${currentSort},
+         prevPageUrl=${mainUrl}+'?page='+${page.number - 1}+'&'+${currentSize}+'&'+${currentSort},
+         nextPageUrl=${mainUrl}+'?page='+${page.number + 1}+'&'+${currentSize}+'&'+${currentSort},
+         lastPageUrl=${mainUrl}+'?page='+${page.totalPages - 1}+'&'+${currentSize}+'&'+${currentSort}
+    "
+>
+    <ul class="pagination" style="float: left;" th:if="${page.totalPages gt 0}">
+
+        <li class="page-item" th:classappend="${page.first}?'disabled'">
+            <a class="page-link" th:href="${prevPageUrl}" tabindex="-1">&laquo;</a>
+        </li>
+        <li class="page-item" th:each="pageIdx:${#numbers.sequence(0, page.totalPages-1)}"
+            th:classappend="${pageIdx eq page.number}?'active'">
+            <a class="page-link"
+               th:href="${mainUrl}+'?page='+${pageIdx}+'&'+${currentSize}+${currentSort}">
+                [[${pageIdx+1}]]
+                <span th:if="${pageIdx eq page.number}" class="sr-only"></span>
+            </a>
+        </li>
+        <li class="page-item" th:classappend="${page.last}?'disabled'">
+            <a class="page-link" th:href="${nextPageUrl}">&raquo;</a>
+        </li>
+    </ul>
+    <ul class="pagination" style="float: right" th:with="pageSizes=${ {20, 30, 50, 100} }">
+        <li class="page-item" th:each="size:${pageSizes}"
+            th:classappend="${page.size eq size}?'active'">
+            <a class="page-link"
+               th:href="${mainUrl}+'?page=0&size='+${size}+'&'+${currentSort}">
+                [[${size}]]
+                <span th:if="${size eq page.size}" class="sr-only"></span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+</html>

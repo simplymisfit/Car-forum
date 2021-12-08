@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="shared/layout"
+      th:with="pageName='home', pageTitle='Strona powitalna'"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <div th:replace="shared/fragments :: header-css"></div>
+    <link rel="stylesheet" th:href="@{/css/platformy.css}">
+    <meta charset="UTF-8">
+    <title>Tytuł</title>
+</head>
+<body>
+
+<div layout:fragment="custom-content">
+
+
+    <div>
+        <div>
+            Witaj <b><span sec:authentication="principal.username"></span></b> nie masz odpowiednich praw!
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+</body>
+</html>

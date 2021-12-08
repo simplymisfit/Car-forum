@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="shared/layout"
+      th:with="pageName='home', pageTitle='Strona błędu'"
+>\
+<body>
+<div layout:fragment="custom-content">
+    <div>
+        <h1>404 - Nie istnieje taki samochód</h1>
+        <div th:object="${exception}">
+            <table class="table w-auto ">
+                <tbody>
+                <tr>
+                    <th scope="row">Wyjątek:</th>
+                    <td th:text="${exception.message}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">URL żądania:</th>
+                    <td th:text="${url}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
